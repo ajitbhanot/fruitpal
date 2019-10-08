@@ -1,0 +1,35 @@
+<html><body>
+<table border="1" cellpadding="7" cellspacing="7">
+  <tr>
+    <th width="50px">No</th>
+	<th>Fruit</th>
+    <th>Quantity </th>
+    <th>Price</th>
+    <th>Variable Overhead</th>
+	<th>Fixed Overhead</th>
+	<th>Country of Origin</th>
+	<th>Final Price (Calculation)</th>
+	
+  </tr>
+  <% if(data.length){ 
+    for(var i = 0;i < data.length;i++) { %>
+  <tr>
+    <td><%=(i+1)%></td>
+    <td><%=data[i].commodity%></td>
+	<td><%=data[i].quantity%></td>
+	<td><%=data[i].quote%></td>
+	<td><%=data[i].variableoverhead%></td>
+	<td><%=data[i].fixedoverhead%></td>
+	<td><%=data[i].marketCd%></td>
+  
+	<td><%=data[i].quantity%> *( <%=data[i].quote%> + <%=data[i].variableoverhead%> )+ <%=data[i].fixedoverhead%>= <%=data[i].price%></td>
+    
+  </tr>
+  <% }
+  }else{ %>
+  <tr>
+    <td colspan="7">No Commodity found</td>
+  </tr>
+<% } %>
+</table>
+</body></html>
