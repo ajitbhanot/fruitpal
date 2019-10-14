@@ -22,13 +22,30 @@ const router = app => {
         var quantity = pool.escape(request.body.quantity);
         var quote = pool.escape(request.body.quote);
         var stringToQuery = 'SELECT ' + quantity + '  *(' + quote + '+variableOverhead)+fixedoverhead as price, ' + quote + ' as quote, ' + quantity + ' as quantity, commodity,marketCd,fixedoverhead,variableoverhead, marketCd as market FROM apiCom.commodity where commodity ='+fruit+ ' order by price desc';
-
+        var defaultStringToQuery = 'SELECT ' + quantity + '  *(' + quote + '+variableOverhead)+fixedoverhead as price, ' + quote + ' as quote, ' + quantity + ' as quantity,  '+fruit+'as commodity, marketCd,fixedoverhead,variableoverhead, marketCd as market FROM apiCom.commodity order by price desc';
         console.log(stringToQuery);
+        console.log(defaultStringToQuery);
         pool.query(stringToQuery, (error, result) => {
             if (error) throw error;
             console.log(result);
             //response.send(result);
-			response.render('showresults',{page_title:"Final Quotes",data:result});
+            
+            console.log(result.length + 'www');
+
+            if (result.length == 0){
+                pool.query(defaultStringToQuery,(defError,defResult)=>{
+                    if (error) throw error;
+                    console.log('Default section ' + defResult);
+
+                    response.render('showresults',{page_title:"Final Quotes",data:defResult});
+
+            //response.send(result);
+        });
+
+            }   else{
+            console.log("We found the fruit");
+            response.render('showresults',{page_title:"Final Quotes",data:result});
+        }
         });
     });
 
